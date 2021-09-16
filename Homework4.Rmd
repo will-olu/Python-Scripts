@@ -1,0 +1,171 @@
+---
+title: 'Homework #4'
+author: "Ade Olu-Ajeigbe"
+date: "4/19/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+1.(a). The first column denotes the ID of the patients and needs to be dropped. Treat the
+class variable (redefined as malignant) as your response and fit a logistic regression
+model using all 9 covariates and 699 samples to predict class of cancer for patients.
+Interpret the fitted model.
+1.(b). Use appropriate methods to choose significant covariates (from all 9) that predict
+the class of cancer for the patients. Interpret the fitted model. (Note: Use all 699
+observations).
+```{r, echo = TRUE}
+
+#install.packages("mlbench")
+library(mlbench)
+data(BreastCancer)
+data<-BreastCancer  #assigning name
+
+
+data$Id<-NULL   #dropping ID
+data$malignant <- data$Class == "malignant"
+data$Class<-NULL   #dropping class variable, now redefined as malignant
+#All the covariates are factors. They need to be converted to numeric vectors.
+cols<-c(1:9) #columns numbers 1 through 9
+data[cols]<-sapply(data[cols], as.numeric)#changes first 9 columns to numeric
+
+
+
+
+#Missing values
+which(is.na(data$Bare.nuclei))
+
+
+#comparision of all covariants 
+model <- glm(malignant ~ .,family = binomial(logit), data=data)
+summary(model)
+
+
+#model$coefficients
+
+#The summary showed that Bare.nuclei, Cl.thickness, Marg.adhesion, and Bl.cromatin are the most significant covariants.
+
+#PartB)
+
+
+model2 <- glm(malignant ~ Cl.thickness + Marg.adhesion + Bl.cromatin + Bare.nuclei, family = binomial(logit), data=data)
+summary(model2)
+
+
+#High AIC scores for all comparisons. The group comparison had a high AIC value
+
+```
+
+2. (a). Fit the model 1(b) on a training set (75%) and provide measure of accuracy using
+k-fold cross validation, with k = 10.
+(b). Repeat with leave one out cross validation method and comment on the
+performance of your fitted model from 1(b).
+
+
+```{r, echo =TRUE}
+
+
+library(caret)
+#a)
+#creating the k-fold cross validation
+
+Train <- createDataPartition(data$malignant, p= 0.75, list= FALSE)
+
+training <- data[ Train, ]
+testing <- data[-Train, ]
+
+
+#training the control set
+train.control <- trainControl(method = "repeatedcv", number = 10, savePredictions = TRUE, repeats = 5 )
+
+training$malignant<- factor(training$malignant)
+
+#new model with the parameters of part b
+#model5 <- train(malignant ~ Cl.thickness + Marg.adhesion + Bl.cromatin + Bare.nuclei, data = training, trControl = train.control, method = "glm", family = "binomial")
+#print(model5)
+
+#testing$malignant<-factor(testing$malignant)
+#pred <- predict(model5, newdata=testing)
+#confusionMatrix(data=pred, testing$malignant)
+
+
+
+#b)
+
+TrainH<- createDataPartition(data$malignant, p =0.75, list =FALSE)
+training <- data[ Train, ]
+testing <- data[-Train, ]
+
+head(data)
+
+model3 <- step(model2, data = training)
+summary(model3)
+
+pred<-predict(model3, mewdata =testing, type = "response")
+acc <- NULL
+results<- ifelse(pred > 0.5, 1, 0)
+answers <- testing$malignant
+misClasificError <- mean(answers != results)
+
+accuracy <- table(results, results)
+sum(diag(accuracy))/ sum(accuracy)
+
+acc1<- NULL
+for(i in 1:nrow(data))
+{
+ # Train-test splitting
+ # 699 samples -> fitting
+ # 1 sample -> testing
+ train <- data[-i,]
+ test <- data[i,]
+
+ # Fitting
+ model6 <- glm(malignant ~ Cl.thickness + Marg.adhesion + Bl.cromatin + Bare.nuclei,
+ family = binomial(logit), data = data)
+
+ # Predict results
+ pred1 <- predict(model6,newdata=test,type="response")
+
+ # If prob > 0.5 then 1, else 0
+ results1 <- ifelse(pred1 > 0.5,1,0)
+ 
+ # Actual answers
+ answers1 <- test$malignant
+
+ # Calculate accuracy
+ misClasificError1 <- mean(answers1 != results1)
+
+ # Collecting results
+ acc1[i] <- 1-misClasificError1
+}
+mean(acc1)
+hist(acc1,xlab='Accuracy',ylab='Freq',main='Accuracy LOOCV',
+ col='cyan',border='blue',density=30)
+
+```
+
+3. Now ignore the class variable and consider the 9 covariates in your model.
+(a). Perform Principal Component Analysis on these 9 variables to retain 90%
+variation in the data. Interpret the components.
+(b). Plot the PC1versus PC2 and overlap the type of cancer coded by different colors.
+(follow the iris data example in class; plot of PCs with flower species). Interpret the
+plot.
+
+```{r, echo = TRUE}
+#install.packages("ggfortify")
+library(ggfortify)
+#install.packages("mlbench")
+library(mlbench)
+
+data2<- data.frame(t(na.omit(t(data))))
+pca <- prcomp(data2, center = TRUE, scale. = TRUE)
+summary(pca)
+#B)
+
+#taking THE PC1 and PC2 
+autoplot(pca, data = data, loadings = TRUE, loading.label = TRUE, colour = 'malignant', frame = TRUE, frame.type = 'norm')
+
+
+
+```
+
+

@@ -1,0 +1,471 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Midterm},
+  pdfauthor={Ade Olu-Ajeigbe},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Midterm}
+\author{Ade Olu-Ajeigbe}
+\date{3/19/2021}
+
+\begin{document}
+\maketitle
+
+\hypertarget{r-markdown}{%
+\subsection{R Markdown}\label{r-markdown}}
+
+This is an R Markdown document. Markdown is a simple formatting syntax
+for authoring HTML, PDF, and MS Word documents. For more details on
+using R Markdown see \url{http://rmarkdown.rstudio.com}.
+
+When you click the \textbf{Knit} button a document will be generated
+that includes both content as well as the output of any embedded R code
+chunks within the document. You can embed an R code chunk like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#This question has related parts.}
+\CommentTok{#(a) (5 points) Based on your chosen 1000 bases create a transition matrix 𝑃.}
+\CommentTok{#(b) (1+2 points) Verify if the rows of 𝑃 add up to 1. Why is that?}
+\CommentTok{#(c) (7 points) Using this transition matrix 𝑃 and any initial probability vector 𝜋 of your choice (get creative here!), generate a Markov chain of length 5000.}
+\CommentTok{#(d) (5 points) Repeat 1(b) for this chain you generated. Draw conclusions.}
+
+
+
+\CommentTok{#transition matrix}
+\NormalTok{P<-}\KeywordTok{prop.table}\NormalTok{(}\KeywordTok{table}\NormalTok{(ecoli[}\DecValTok{5000}\OperatorTok{:}\DecValTok{5999}\NormalTok{], ecoli[}\DecValTok{5001}\OperatorTok{:}\DecValTok{6000}\NormalTok{]),}\DecValTok{1}\NormalTok{)}
+\NormalTok{P}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    
+##             a         c         g         t
+##   a 0.3308824 0.1911765 0.1617647 0.3161765
+##   c 0.2938776 0.1836735 0.2938776 0.2285714
+##   g 0.2489083 0.3362445 0.2401747 0.1746725
+##   t 0.2086614 0.2795276 0.2322835 0.2795276
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#running a summation of the rows}
+\CommentTok{#The rows equal 1 because each nucleotide is a proportion of the total sequence}
+\KeywordTok{rowSums}\NormalTok{(P)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## a c g t 
+## 1 1 1 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# C) taking the value of pi and transition matrix P }
+\NormalTok{pi <-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\DecValTok{4}
+
+\CommentTok{#using the }
+\CommentTok{#full nucleotide alphabet}
+\NormalTok{nucleotides <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"a"}\NormalTok{,}\StringTok{"c"}\NormalTok{,}\StringTok{"t"}\NormalTok{,}\StringTok{"g"}\NormalTok{)}
+\NormalTok{length<-}\DecValTok{5000}\CommentTok{# length of the}
+\NormalTok{chain<-}\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{,length)}
+\NormalTok{chain[}\DecValTok{1}\NormalTok{]<-}\KeywordTok{sample}\NormalTok{(nucleotides,}\DecValTok{1}\NormalTok{,}\DataTypeTok{p=}\NormalTok{pi)}
+\NormalTok{chain[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "c"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{(length}\DecValTok{-1}\NormalTok{))\{ }
+\NormalTok{ chain[i}\OperatorTok{+}\DecValTok{1}\NormalTok{]<-}\KeywordTok{sample}\NormalTok{(nucleotides,}\DecValTok{1}\NormalTok{,}\DataTypeTok{p=}\NormalTok{P[chain[i],])}
+\NormalTok{ \}}
+\KeywordTok{head}\NormalTok{(chain)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "c" "a" "c" "t" "g" "a"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xsx <-P}\OperatorTok{%*%}\NormalTok{P}
+\NormalTok{xsx}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    
+##             a         c         g         t
+##   a 0.2719040 0.2411435 0.2220019 0.2649506
+##   c 0.2720590 0.2526252 0.2251918 0.2501240
+##   g 0.2774030 0.2389278 0.2373367 0.2463325
+##   t 0.2673332 0.2474727 0.2366192 0.2485750
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#D row sums representing the new Markov chain}
+\KeywordTok{rowSums}\NormalTok{(xsx)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## a c g t 
+## 1 1 1 1
+\end{verbatim}
+
+\hypertarget{including-plots}{%
+\subsection{Including Plots}\label{including-plots}}
+
+You can also embed plots, for example:
+
+\begin{verbatim}
+##         c 
+## 0.2448042
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "alpha score"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 1.644854
+\end{verbatim}
+
+\begin{verbatim}
+##          c          c 
+## -0.1088155  0.5984239
+\end{verbatim}
+
+\begin{verbatim}
+##      a 
+## 499967
+\end{verbatim}
+
+\begin{verbatim}
+##               [,1]         [,2]
+## [1,] -5.631377e-07 4.563402e-06
+## [2,] -5.631377e-07 4.563402e-06
+## [3,] -5.631377e-07 4.563402e-06
+## [4,] -5.631377e-07 4.563402e-06
+## [5,] -5.631377e-07 4.563402e-06
+## [6,] -5.631377e-07 4.563402e-06
+\end{verbatim}
+
+Note that the \texttt{echo\ =\ FALSE} parameter was added to the code
+chunk to prevent printing of the R code that generated the plot.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Suppose that we are interested in the restriction enzyme ‘GAATTC’. Use 𝑝𝐴, 𝑝𝐶, 𝑝𝑇 and 𝑝𝐺 as in the Ecoli dataset. [estimate them from the whole sequence]}
+\CommentTok{#(a) (5 points) Let X denote the number of restriction sites in a sequence of length 5000. What is the probability distribution of X? Name the distribution and identify its parameters.}
+\CommentTok{#(b) (5 points) What is the approximate distribution of X? Name the distribution and identify its parameters.}
+\CommentTok{#(c) (5+5 points) In a sequence of length 5000, find the exact and approximate probability that X is at least 25.}
+
+\CommentTok{#P(X<=5000)}
+
+\CommentTok{#a)}
+
+\NormalTok{tab<-}\KeywordTok{table}\NormalTok{(ecoli)[}\KeywordTok{c}\NormalTok{(}\StringTok{"a"}\NormalTok{,}\StringTok{"c"}\NormalTok{,}\StringTok{"t"}\NormalTok{,}\StringTok{"g"}\NormalTok{)]}
+\NormalTok{tab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ecoli
+##       a       c       t       g 
+## 1370126 1393804 1366560 1391841
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabss<-}\StringTok{ }\KeywordTok{sum}\NormalTok{(tab[}\KeywordTok{c}\NormalTok{(}\StringTok{"a"}\NormalTok{,}\StringTok{"c"}\NormalTok{,}\StringTok{"t"}\NormalTok{,}\StringTok{"g"}\NormalTok{)])}
+\NormalTok{tabss}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5522331
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{proptabs<-tab[}\KeywordTok{c}\NormalTok{(}\StringTok{"a"}\NormalTok{,}\StringTok{"c"}\NormalTok{,}\StringTok{"t"}\NormalTok{,}\StringTok{"g"}\NormalTok{)]}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(tab[}\KeywordTok{c}\NormalTok{(}\StringTok{"a"}\NormalTok{,}\StringTok{"c"}\NormalTok{,}\StringTok{"t"}\NormalTok{,}\StringTok{"g"}\NormalTok{)])}
+\NormalTok{proptabs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ecoli
+##         a         c         t         g 
+## 0.2481065 0.2523941 0.2474607 0.2520387
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{restrictionenzyme<-}\KeywordTok{c}\NormalTok{(}\StringTok{"g"}\NormalTok{,}\StringTok{"a"}\NormalTok{,}\StringTok{"t"}\NormalTok{,}\StringTok{"t"}\NormalTok{, }\StringTok{"c"}\NormalTok{)}
+\NormalTok{restrictionenzyme}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "g" "a" "t" "t" "c"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## function (x) 
+## UseMethod("t")
+## <bytecode: 0x00000000159099e8>
+## <environment: namespace:base>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#a)Normal Distribution Probability x = 5000, ecoli data = tabss X~(x<=5000, tabss, p = 0.10)}
+ \KeywordTok{pnorm}\NormalTok{(}\DecValTok{5000}\NormalTok{, tabss, }\FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#b)The length of a string of }
+ \KeywordTok{pnorm}\NormalTok{(}\DecValTok{5000}\NormalTok{,(}\DecValTok{5000}\OperatorTok{*}\FloatTok{0.5}\NormalTok{),}\KeywordTok{sqrt}\NormalTok{(tabss}\OperatorTok{*}\FloatTok{0.5}\OperatorTok{*}\FloatTok{0.75}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9588288
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#c)}
+\KeywordTok{pnorm}\NormalTok{(}\FloatTok{25.5}\NormalTok{,(}\DecValTok{5000}\OperatorTok{*}\FloatTok{0.5}\NormalTok{),}\KeywordTok{sqrt}\NormalTok{(tabss}\OperatorTok{*}\FloatTok{0.5}\OperatorTok{*}\FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.01760262
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#5. This question has two unrelated parts.}
+\CommentTok{#(a) (10 points) A particular town has two retirement homes A and B. The number of persons vaccinated for COVID-19 in home A has a Binomial distribution with 𝑝 = 0.7. The number of persons vaccinated for COVID-19 in home B has a Binomial distribution with 𝑝 = 0.8. One of the homes is chosen at random (both homes are equally likely) and a sample of 25 is randomly selected. Given that 20 of the 25 persons selected were vaccinated, what is the probability that the sample was taken in home B?}
+\CommentTok{#(b) (10 points) Let 𝑋 be a continuous random variable with pdf:}
+
+\CommentTok{#Using functions and integration in R, compute 𝐸(𝑋) and 𝑉(𝑋).}
+
+\CommentTok{##A ~ (n =25, p = 0.7)}
+\CommentTok{#B<-( n = 25,p = 0.8)}
+\CommentTok{#k = 20}
+
+\CommentTok{#So given that is 0.8 x = 20, n = 25}
+\CommentTok{#Exact probability}
+\KeywordTok{pbinom}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DecValTok{25}\NormalTok{, }\FloatTok{0.8}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5793257
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\StringTok{"exact probability"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "exact probability"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pbinom }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## function (q, size, prob, lower.tail = TRUE, log.p = FALSE) 
+## .Call(C_pbinom, q, size, prob, lower.tail, log.p)
+## <bytecode: 0x0000000012eaf680>
+## <environment: namespace:stats>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Bin distribution approximation with the }
+\KeywordTok{pnorm}\NormalTok{(}\DecValTok{20}\NormalTok{, (}\DecValTok{25}\OperatorTok{*}\FloatTok{0.8}\NormalTok{), }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{25}\OperatorTok{*}\FloatTok{0.8}\OperatorTok{*}\FloatTok{0.2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#probability form the binomial distribution using normal distribution to find the probability}
+\NormalTok{xs <-}\KeywordTok{pnorm}\NormalTok{(}\FloatTok{20.5}\NormalTok{,(}\DecValTok{25}\OperatorTok{*}\FloatTok{0.8}\NormalTok{), }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{25}\OperatorTok{*}\FloatTok{0.8}\OperatorTok{*}\FloatTok{0.2}\NormalTok{))}
+\KeywordTok{print}\NormalTok{(}\StringTok{"continuity correction"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "continuity correction"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xs }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5987063
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#B}
+
+\CommentTok{# take the integral((x/theta^2)(e))^(x^2/2*theta^2) = }
+\NormalTok{theta =}\StringTok{ }\DecValTok{1}
+\NormalTok{e =}\StringTok{ }\FloatTok{2.7}
+\NormalTok{fex<-}\ControlFlowTok{function}\NormalTok{(x)\{(}\OperatorTok{-}\NormalTok{e}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\NormalTok{x}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\DecValTok{2}\OperatorTok{*}\NormalTok{theta}\OperatorTok{^}\DecValTok{2}\NormalTok{))}\OperatorTok{*}\KeywordTok{ifelse}\NormalTok{((x}\OperatorTok{>}\DecValTok{0} \OperatorTok{&}\StringTok{ }\NormalTok{x}\OperatorTok{<}\DecValTok{10000}\NormalTok{), }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{)\}}
+\NormalTok{mew<-}\KeywordTok{integrate}\NormalTok{(fex,}\DecValTok{0}\NormalTok{,}\DecValTok{10000}\NormalTok{)}\OperatorTok{$}\NormalTok{value}
+\NormalTok{mew}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1.101821e-24
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#V(X) = E(X-mew)^2}
+\NormalTok{Xvar <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{(((x}\OperatorTok{-}\NormalTok{mew)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\NormalTok{x}\OperatorTok{^}\DecValTok{2}\OperatorTok{/}\DecValTok{2}\OperatorTok{*}\NormalTok{theta}\OperatorTok{^}\DecValTok{2}\NormalTok{)) }\OperatorTok{*}\KeywordTok{ifelse}\NormalTok{((x}\OperatorTok{>}\StringTok{ }\DecValTok{0} \OperatorTok{&}\StringTok{ }\NormalTok{x}\OperatorTok{<}\StringTok{ }\DecValTok{10000}\NormalTok{), }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)\}}
+\NormalTok{nvar <-}\StringTok{ }\KeywordTok{integrate}\NormalTok{(Xvar,}\DecValTok{0}\NormalTok{,}\DecValTok{10000}\NormalTok{)}\OperatorTok{$}\NormalTok{value}
+\NormalTok{nvar}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\end{document}

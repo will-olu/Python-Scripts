@@ -1,0 +1,178 @@
+---
+title: 'Homework #3'
+author: "Ade Olu-Ajeigbe"
+date: "4/2/2021"
+output: html_document
+---
+
+```{r}
+#install.packages("TeachingDemos")
+#install.packages("nortest")
+library(TeachingDemos)
+library(nortest)
+```
+
+1. Refer to the R code `Hypothesis Testing' to load the Leukemia dataset. For this problem we
+will work with Gene 40.
+Follow code from class to load Gene40<-as.numeric(data[41,]) in R.
+(a) For this part, assume that the data is normal. Let 𝜇 denote the mean expression for Gene
+40. Then test 𝐻0: 𝜇 = 0.2 𝑣𝑠 𝐻1: 𝜇 ≠ 0.2 using the appropriate test. State your
+conclusions from this test.
+(b) Test normality for Gene 40. Based on your result, would you do anything different for
+(a)?
+
+```{r, echo = TRUE}
+leukemia<- read.csv("http://web.stanford.edu/~hastie/CASI_files/DATA/leukemia
+_small.csv")
+
+#initializing the classes and taking in the id values and removing the column names
+class<-c(rep(0,27),rep(1,11),rep(0,11),rep(1,5),rep(0,2),rep(1,2),0,rep(1,7),
+rep(0,6))
+length(class)
+id<-c(1:72)
+colnames(leukemia)<-NULL
+data<-rbind(class,leukemia)
+colnames(data)<-c(1:72)
+
+
+Gene40<-as.numeric(data[41,])
+
+#H(o) = 0.2 and H1 != 0.2 the value is normal but we do not know the sigma(variance) value so a t test seems appropirate
+ttt <- t.test(Gene40~class, mu= 0.2)
+
+ttt
+
+
+shapiro.test(Gene40) #Data is not normally distributed at alpha = 0.05. The test would have to be look
+
+
+
+#Each value individual is  greater than an alpha value that is greater than 0.05
+wilcox.test(Gene40, mu = 0.2)#with the non-
+
+
+
+```
+Question 1 Part B:) Conclusion: The p-value for the test for normality failed. This tells us that it nis not normally distributed and a t test at this state would not work. The Gene40 variable would need a normality test based on the class to determine what part of the data is not normal. Use a non-parameter test to evaluate the data. With the non-parameteric test we can accept our null hypothesis.
+
+
+
+
+
+
+
+
+
+
+
+
+2. Let 𝜇1 and 𝜇2 denote the mean expressions for Gene 40 for ALL and AML groups respectively.
+(a) Assume that the two groups are normal and test 𝐻0: 𝜇1 = 𝜇2 vs 𝐻1: 𝜇1 ≠ 𝜇2 using the
+appropriate t test (First verify if the variances are equal or not).
+(b) Repeat (a) using a linear model. Is your conclusion same as (a)?
+(c) Test if the ALL data and AML data for Gene 40 are normal. If not, repeat (a) with an
+appropriate test and state your conclusions.
+
+
+```{r , echo = FALSE}
+#A)
+#verification of the variances
+var.test(Gene40~class)
+#two sided t-test to check if the means are equal
+t.test(Gene40~class, var.equal = T)
+
+#B)
+m<-lm(Gene40~class, data= data)
+summary(m) 
+
+#C)
+ALL<-subset(Gene40, class == 0)
+AML<-subset(Gene40, class == 1)
+
+shapiro.test(ALL) 
+shapiro.test(AML)
+
+
+```
+Conclusion: All of the p-values are greater than the default alpha value of 0.05 we fail to reject the null hypothesis.
+
+
+3. We are interested to investigate if tumor type has a significant effect on Gene expression.
+Consider these artificial Gene expression values: 3, 5, 7, 9, 2 for Tumor A; 11, 13, 9 for Tumor
+B; 5, 7, 5, 6 for Tumor C and 14, 11, 15 for Tumor D.
+(a) Write down the linear model in the form 𝑌 = 𝑋𝛽 + 𝜖; explaining each term and their
+dimensions. Using R, perform ANOVA to test if Tumor type has an effect on gene
+expression (i.e. are the gene expressions for different tumors significantly different?). State
+your hypotheses, assumptions, p-value and conclusions.
+(b) Let 𝜇1, 𝜇2, 𝜇3 and 𝜇4 denote the mean gene expressions for Tumor types A, B, C and D
+respectively. (Note that 𝜇1 = 𝛽1, 𝜇2 = 𝛽2, 𝜇3 = 𝛽3, and 𝜇4 = 𝛽4). Test the contrasts
+(i) 𝐻0: 𝜇1 = 𝜇4 vs 𝐻1: 𝜇1 ≠ 𝜇4
+(ii) 𝐻0: 𝜇1 + 𝜇4 = 𝜇2 vs 𝐻1: 𝜇1 + 𝜇4 ≠ 𝜇2
+
+```{r , echo=TRUE}
+TumorA <-c(3,5,7,9,2)
+TumorB <-c(11,13,9)
+TumorC <-c(5,7,5,6)
+TumorD <-c(14,11,15)
+
+#The y represents n = TumorA + TumorB + TumorC + TumorD n = 15
+#X is 15 times 4 
+#B is 15 by the
+
+#the y is all of the greens within the set at any point were X is present.
+y <-c(3,5,7,9,2,11,13,9,5,7,5,6,14,11,15)
+
+
+TA<-c(rep(1,5), rep(0,10))
+TB<-c(rep(0,5), rep(1,3),rep(0,7))
+TC<-c(rep(0,5), rep(0,3), rep(1,4), rep(0,3))
+TD<-c(rep(0,5), rep(0,3), rep(0,4), rep(1,3))
+
+
+x<-cbind(TA, TB, TC, TD)
+x
+
+linear<- lm(y~(x-1))
+
+summary(linear)
+
+anova(lm(y ~ x))
+
+#B) # I am actually not sure about this but I am assuming we take a t test to determine the null hypothesis on both. I don't think we need to take the mean but those are the avaliable gene expression values.
+mean(TumorA)
+mean(TumorB)
+mean(TumorC)
+mean(TumorD)
+
+
+#I am not sure how to answer I took my best guess.
+t.test(y, mu = 5.2)
+t.test(y, mu = 10.95)
+
+
+```
+Conclusion:For Part A) Tumor are significantly different. We must reject the null hypothesis of the tumor cells are not significantly different.
+
+
+4. The following are the results from a clinical trial for two competing drugs for migraine. The
+first trial with Drug A had 30 patients who got relief from the pain within an hour of receiving
+the drug and 50 who didn’t (after an hour had passed). The second trial with Drug B had 4
+patients who got relief from the pain within the hour and 13 patients who still had pain after the
+hour. Perform a Fisher’s exact test to check if pain relief (within an hour) depends on which
+drug is administered.
+
+
+```{r}
+#Fisher exact test is testing if the 30 patients who got relief after from Drug A is more significant than the 4 patients that that recieved pain relief with Drug B.
+
+#I will do a Fisher test to see if the drugs are equal
+
+
+fisherdata <-matrix(c(30, 50, 4, 13), byrow =TRUE, ncol = 2)
+fisher.test(fisherdata) 
+
+```
+
+
+
+Conclusion: The Fisher exact test produces a p-value less than one meaning that the likelihood of the drugs being equal is low. If the drugs were equal than the value would have been equal to one meaning either drug would have an equal effect.

@@ -1,0 +1,122 @@
+---
+title: 'Homework #2'
+author: "Ade Olu-Ajeigbe"
+date: "3/3/2021"
+output:
+  pdf_document: default
+---
+
+```{r}
+
+```
+
+
+```{r}
+# Use bayes Rule
+#P(H) = 0.25 #total population with hypertension
+#P(A | H ) = 0.90 #
+#P(A | nC ) = 0.05 #
+#P(A | C) = 0.095
+
+#BayesRule -> P(H) *P(A| H)/ P(H) * P(A| H) + P(notH) * P(nH)*P(A | nC)
+
+BayesRule <- (0.25* 0.90)/ ((0.25*0.90) + (0.75*0.05))
+BayesRule
+```
+
+## Including Plots
+
+(a) Using the first 1000 base pairs of the E,coli data, estimate the transition
+matrix, 𝑃, for a Markov chain. Calculate 𝑃
+2, 𝑃4, 𝑃8, 𝑃16. (Remember to use %*% to do matrix multiplication in R!) Do the entries seem to be
+approaching any specific quantity?
+(b) Assuming 𝜋 = (0.1; 0.15; 0.05; 0.7) and using P from part (a),
+simulate 𝑛 = 3000 observations from this Markov chain. (components of 𝜋
+correspond to A, C, G, T in this order)
+
+```{r}
+#install.packages("seqinr")
+#install.packages("ade4")
+#library(ade4)
+#library(seqinr)
+
+#Read in the data in Fasta format
+
+
+#gene <- ("C:/Users/willi/OneDrive/Documents/E.Coli/AE005174v2.fas",package = "seqinr") 
+#x<-c read.fasta (file = gene, as.string = TRUE, seqtype = "AA") [[1]]
+
+#str(x)
+#This is the DNA sequence of ecoli!
+#ecoli<-c(x[[1]],x[[2]]) #Now you have loaded the DNA seq of Ecoli
+
+
+
+#some more statistics
+#str(ecoli)
+
+#proportion of C+G in this sequence
+#sum(table(ecoli)[c("c","g")])/
+ # sum(table(ecoli)[c("c","g","a","t")])
+
+#ecoli table
+#tab<-table(ecoli)[c("a","c","t","g")]
+#tab
+#
+#ecoli percentages
+#p<-tab[c("a","c","t","g")]/sum(tab[c("a","c","t","g")])
+#p
+
+#P <- matrix(c(.2, .4, .8, .16))
+#lengthFirst <- numStrains <- rep(0,nsim)
+#tic()
+#for (q in 1:nsim)
+#{
+  #Create the chain object
+ # chain <- rep(NA, lengthOfChain)
+  
+  #Initialize chain
+  #chain[1]<-sample(states,1,p=pi)
+  
+  #for (i in 1:(lengthOfChain-1)){
+    #chain[i+1]<-sample(states,1,p=P[chain[i],])
+  #}
+  
+  #calculate number of strains
+  #numStrains[q] <- length(unique(chain))
+  
+  #Calculate length before switching. First swith
+ # lengthFirst[q] <- min(which(diff(chain)!=0))
+#}
+
+
+```
+
+(a) Find the distribution of two-words in the chain that you simulated in
+2(b). (Get 4 by 4 table with two word frequencies or joint probabilities).
+(b) Define a random variable X as the frequency of the nucleotide ‘C’ in a
+chain. Simulate the Markov chain in 2(b) 10000 times and generate a
+histogram of 𝑋. Comment on the distribution of this random variable 𝑋.
+```{r}
+#creating table 4 x 4
+#table 
+```
+
+
+
+
+
+```{r}
+#X~Bin(n=25, p=0.1)
+
+#P(X > 15)
+
+BinDistribution <- dbinom(15,25,0.1)
+BinDistribution #1.139746e-09
+
+#Poisson approximation
+# lamda = n*p = 25 * 0.1
+lopois <- dpois(15, 2.5)
+lopois #5.846074e-08
+
+```

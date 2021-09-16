@@ -1,0 +1,187 @@
+
+---
+title: 'Homework #5'
+author: "Ade Olu-Ajeigbe"
+date: "4/30/2021"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+
+1. We are using a Hidden Markov model for segmenting genomic DNA sequences into exons
+(E) and introns (I). Consider the following HMM and a recognition site CGTA
+
+
+```{r, echo= TRUE}
+#We are using a Hidden Markov model for segmenting genomic DNA sequences into exons
+#(E) and introns (I). Consider the following HMM and a recognition site CGTA
+
+library(tinytex)
+#probabilities
+#P(A|E) = 0.2 #Given that E has already occured the probability of A is 0.2
+#P(C|E) = 0.4 #Given that E has already occured the probability of C is 0.4
+#P(G|E) = 0.4 #Given that E has already occured the probability of G is 0.4
+#P(t|E) = 0.2 #Given that E has occured the probability of T is 0.2
+#P(A|I) = 0.4 #Given that I has occured the probability of A is 0.4
+#P(C|I) = 0.2 #Given that I has occured the probability  of C is 0.2
+#P(G|I) = 0.2 #Given that I has occured the probability of G is 0.2
+#P(t|I) = 0.4 #Given that I has occured the probability of T is 0.4
+#P(I given E) = 0.3 transtion of E to I
+#P(E|I) = 0.4 tranisiton of I to E
+#P(E|E) = 0.6
+#P(I|I) = 0.7
+#transition probilities are 0.3, 0.4, 0.6, 0.7
+#for E the emission probabilities at a, c, g, t are 0.2, 0.4 , 0.4, 0.2
+#for I the emission probabilityies at a, c, g, t are 0.4, 0.2, 0.2, 0.4
+#the sequence is c to g to a to t
+
+#number of states is equal to 2 so k is equal to 2 
+#so 1/k is 1/2
+a0I = 1/2
+a0E = 1/2
+
+#x<-c(((1/2) * 0.4) *(0.6* 0.4)*(0.6 *0.2) *(0.6*0.2)) this is indepth test of the specific recognition site c g t a for an all exon model condensed below in the EEEE function
+#x
+EEEE<-c((1/2)*(0.6^3)*(0.1^2)*(0.4^2))
+EEEE
+
+
+
+IIII <-c((1/2)*(0.7*3)*(0.1^2)*(0.4^2))
+IIII
+
+##IIII is more likely
+
+```
+#3. (a) Use R to generate a sequence of length 200 from this Hidden Markov model.
+#(b) Now use Viterbi algorithm to decode the state (H/L) for the 200 outcomes
+#[For parts (a) and (b) refer to R code “Viterbi Algorithm _Dishonest Casino Example”.
+#Here the simulation and Viterbi has been done for the Dishonest Casino die problem. You
+#need to modify it accordingly]
+
+
+```{r, echo = TRUE}
+#maybe specify that the length of the chain is 200
+n<-(c(200))
+
+
+#This is a matrix  visualizing the 
+transition<- matrix(c(0.6, 0.3, 0.4, 0.7),nrow = 2, ncol= 2)
+rownames(transition) <- c("E", "I")
+colnames(transition) <- c("E", "I")
+A <- transition
+A
+
+Enucs<- c(1,1,4,4)
+Inucs<- c(4,4,1,1)
+E<-matrix(c(rep(Enucs/10),rep(Inucs/10)),nrow=2,ncol = 4, byrow = TRUE)
+E
+
+markov <- function(x,P,n){ seq <- x
+for(k in 1:(n-1)){
+ seq[k+1] <- sample(x, 1, replace=TRUE, P[seq[k],])}
+return(seq)
+}
+
+nucleotides <-(c("a","c","g","t"))
+
+#here you need to manipulate the data to have the observation set and hiddenset
+hmmdat <- function(A,E,n){
+ observationset <- nucleotides[1:4] # a, c , g, t
+ hiddenset <- c(1,2) #intron is 1 and exon is 2 since E is defined as our emission
+ x <- h <- matrix(NA,nr=n,nc=1)
+ h[1]<-1
+ x[1]<-sample(observationset,1,replace=TRUE,E[h[1],])
+ h <- markov(hiddenset,A,n)
+ for(k in 1:(n-1)){x[k+1] <- sample(observationset,1,replace=TRUE,E[h[k],])}
+ out <- matrix(c(x,h),nrow=n,ncol=2,byrow=FALSE)
+ return(out)
+}
+
+
+#length of Hidden Markov model is 200
+dat <- hmmdat(A,E, n)
+colnames(dat) <- c("observation","hidden_state")
+rownames(dat) <- 1:n
+t(dat)
+
+#part B)
+
+viterbi <- function(A,E,x) {
+ v <- matrix(NA, nr=length(x), nc=dim(A)[1])
+ v[1,] <- 0; v[1,1] <- 1
+ for(i in 2:length(x)) {
+ for (l in 1:dim(A)[1]) {v[i,l] <- E[l,x[i]] * max(v[(i-1),] * A[l,])}
+ }
+ return(v)
+}
+
+
+
+#vit <- viterbi(A,E,dat[1])
+#vitrowmax <- apply(vit, 1, function(x) which.max(x)) #tracing back max prob path
+#hiddenstate <- dat[,2]
+#table(hiddenstate, vitrowmax)
+#datt <- cbind(dat,vitrowmax)
+#colnames(datt) <- c("observation","hidden_state","predicted state")
+#t(datt)
+```
+
+#4. Load the data “mtcars” using the command data(mtcars). [ You may need to install and
+#load the package “MASS”]. Here is a description of the variables (https://stat.ethz.ch/Rmanual/R-devel/library/datasets/html/mtcars.html). For this data answer the following
+#questions using appropriate correlation tests/confidence intervals.
+#(a) Is there a significant association between the number of gears and the number of
+#carburetors? Test using 𝛼 = 0.05.
+#(b) Is there a significant association between the number of mpg and horsepower? Test
+#using 𝛼 = 0.05.
+#(c) Test for a significant association between mpg and number of gears at 𝛼 = 0.05
+
+
+```{r, echo=TRUE}
+g<- mtcars$gear
+c<- mtcars$carb
+phat<- table(g, c)/sum(length(g)+ length(c))
+phat
+
+phats<-table(g,c)[4]
+col(phat)
+
+#install.packages = ("MASS")
+data(mtcars)
+head(mtcars)
+#Part A all correlation tests
+
+
+cor(g,c)
+cor.test(g, c)
+
+#cor.test(g, c, method = "spearman", alternative = "less")
+#cor.test(g, c, method = "kendall")
+ 
+
+#Part B mpg vs hp
+m<- mtcars$mpg
+h<- mtcars$hp
+
+cor(m,h)
+cor.test(m, h)
+
+#cor.test(m, h, method = "spearman", alternative = "less")
+#cor.test(m, h, method = "kendall")
+
+#Part C gears vs mpg
+e<- mtcars$gear
+p<- mtcars$mpg
+
+cor(e,p)
+cor.test(e, p)
+
+#cor.test(e, p, method = "spearman", alternative = "less")
+#cor.test(e, p, method = "kendall")
+
+
+
+
+```
+

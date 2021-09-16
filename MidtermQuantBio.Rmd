@@ -1,0 +1,241 @@
+---
+title: "Midterm"
+author: "Ade Olu-Ajeigbe"
+date: "3/19/2021"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+---
+
+
+
+
+```{r setup, echo = TRUE} 
+#FALSE WAS INCLUDED THAT EXCLUDED THIS DATA^^^^^
+###Clearly state your hypotheses and draw conclusions at the end for each part.
+###(a) (10 points) Using the selected 1000 bases and a Chi-square goodness of fit test,verify if pyrimidines (C or T) and purines (A or G) have equal probabilities.[Remember to use duplex model by doubling observed frequencies]
+###(b) (10 points) For your selected sequence, are adjacent nucleotides independent? Use a Chi-square test of independence to verify.###
+
+knitr::opts_chunk$set(echo = TRUE)
+library(ade4)
+library(seqinr)
+x<- read.fasta("C:/Users/willi/Downloads/Ecoli Data/Ecoli Data/AE005174v2.fas")
+
+ecoli<-c(x[[1]],x[[2]]) 
+
+Ptable<-prop.table(table(ecoli[5000:5999], ecoli[5001:6000]))
+Ptable
+
+pCT<-sum(Ptable[,c('c','t')]) #sums of the prop of pyrimidines
+pCT
+
+pGA <-sum(Ptable[,c('g','a')]) #sums of the prop of purines
+pGA
+#both roughly about .50
+
+y<-table(ecoli[5001:6000])[c("a", "c","t","g")]
+yx<-c(2*(y[1]+y[4]),2*(y[2]+y[3]))
+yx
+
+p<-c(0.5,0.5)
+
+chisq.test(2*yx,p=p)
+#X-squared = 0.032, df = 1, p-value = 0.858
+
+#
+#Doing the independence test for the adjacent nucleotides
+#
+
+tx<-cbind(ecoli[-1],ecoli[-length(ecoli)])[5001:6000,]
+table(tx[,1],tx[,2])
+chisq.test(tx[,1],tx[,2])
+
+
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+
+#This question has related parts.
+#(a) (5 points) Based on your chosen 1000 bases create a transition matrix 𝑃.
+#(b) (1+2 points) Verify if the rows of 𝑃 add up to 1. Why is that?
+#(c) (7 points) Using this transition matrix 𝑃 and any initial probability vector 𝜋 of your choice (get creative here!), generate a Markov chain of length 5000.
+#(d) (5 points) Repeat 1(b) for this chain you generated. Draw conclusions.
+
+
+
+#transition matrix
+P<-prop.table(table(ecoli[5000:5999], ecoli[5001:6000]),1)
+P
+
+#running a summation of the rows
+#The rows equal 1 because each nucleotide is a proportion of the total sequence
+rowSums(P)
+
+# C) taking the value of pi and transition matrix P 
+pi <-c(1,2,1,2)/4
+
+#using the 
+#full nucleotide alphabet
+nucleotides <- c("a","c","t","g")
+length<-5000# length of the
+chain<-rep(NA,length)
+chain[1]<-sample(nucleotides,1,p=pi)
+chain[1]
+
+
+for (i in 1:(length-1)){ 
+ chain[i+1]<-sample(nucleotides,1,p=P[chain[i],])
+ }
+head(chain)
+
+xsx <-P%*%P
+xsx
+#D row sums representing the new Markov chain
+rowSums(xsx)
+
+
+
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure,}
+#This question has related parts.
+#(a) (3 points) Estimate 𝑝, the proportion of pyrimidines (C or T) from the chain generated in 2(c).
+#(b) (5+2 points) Using the estimate above, provide a 90% confidence interval (CI) for the true 𝑝, proportion of pyrimidines. Interpret the interval.
+#(c) (2 points) If you generated another chain, calculated the estimate of 𝑝 and constructed a 90% CI for 𝑝, would your answers be the same as in 3(a), 3(b)? Why or why not?
+#(d) (8 points) Simulation: Generate a random sample of size 500 from 𝐵𝑖𝑛𝑜𝑚𝑖𝑎𝑙(𝑛 = 1, 𝑝) where 𝑝 = 0.56. Compute an estimate of 𝑝 from this sample and construct a 90% CI for 𝑝. Repeat this process 1000 times. Interpret your findings. (No need to print 1000 CIs).
+
+#a
+
+y<-table(ecoli[1:500000])[c("a", "c","t","g")]
+yxs<-c(y[2])
+yxg<-c(y[1]+y[2]+y[3]+y[4])
+
+txg<- yxs/yxg
+txg
+
+#b)
+alpha<-0.1
+z<-qnorm(1-(alpha/2))
+print("alpha score")
+z
+
+n<-length(y)
+lowerbound<-txg-(z*sqrt(txg*(1-txg)/n))
+upperbound<-txg+(z*sqrt(txg*(1-txg)/n))
+c(lowerbound,upperbound)
+
+#c)No, the answers will not be the same due to the size of the overall chain.
+
+#d)
+nsim<-1000
+yxg
+ciResults<-matrix(NA,nrow=nsim,ncol=2)
+for(i in 1:nsim){
+ x<-rbinom(40,1,p)
+ txg<-table(y)[2]/yxg
+ z<-qnorm(0.90)
+ l<-txg-(z*sqrt(txg*(1-txg)/yxg))
+ u<-txg+(z*sqrt(txg*(1-txg)/yxg))
+ ciResults[i,]<-c(l,u)
+}
+head(ciResults)
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r, echo = TRUE}
+#Suppose that we are interested in the restriction enzyme ‘GAATTC’. Use 𝑝𝐴, 𝑝𝐶, 𝑝𝑇 and 𝑝𝐺 as in the Ecoli dataset. [estimate them from the whole sequence]
+#(a) (5 points) Let X denote the number of restriction sites in a sequence of length 5000. What is the probability distribution of X? Name the distribution and identify its parameters.
+#(b) (5 points) What is the approximate distribution of X? Name the distribution and identify its parameters.
+#(c) (5+5 points) In a sequence of length 5000, find the exact and approximate probability that X is at least 25.
+
+#P(X<=5000)
+
+#a)
+
+tab<-table(ecoli)[c("a","c","t","g")]
+tab
+
+tabss<- sum(tab[c("a","c","t","g")])
+tabss
+
+proptabs<-tab[c("a","c","t","g")]/sum(tab[c("a","c","t","g")])
+proptabs
+
+restrictionenzyme<-c("g","a","t","t", "c")
+restrictionenzyme
+t
+
+#a)Normal Distribution Probability x = 5000, ecoli data = tabss X~(x<=5000, tabss, p = 0.10)
+ pnorm(5000, tabss, 0.5)
+#b)The length of a string of 
+ pnorm(5000,(5000*0.5),sqrt(tabss*0.5*0.75))
+
+#c)
+pnorm(25.5,(5000*0.5),sqrt(tabss*0.5*0.5))
+
+
+
+
+```
+
+
+
+```{r}
+#5. This question has two unrelated parts.
+#(a) (10 points) A particular town has two retirement homes A and B. The number of persons vaccinated for COVID-19 in home A has a Binomial distribution with 𝑝 = 0.7. The number of persons vaccinated for COVID-19 in home B has a Binomial distribution with 𝑝 = 0.8. One of the homes is chosen at random (both homes are equally likely) and a sample of 25 is randomly selected. Given that 20 of the 25 persons selected were vaccinated, what is the probability that the sample was taken in home B?
+#(b) (10 points) Let 𝑋 be a continuous random variable with pdf:
+
+#Using functions and integration in R, compute 𝐸(𝑋) and 𝑉(𝑋).
+
+##A ~ (n =25, p = 0.7)
+#B<-( n = 25,p = 0.8)
+#k = 20
+
+#So given that is 0.8 x = 20, n = 25
+#Exact probability
+pbinom(20,25, 0.8) 
+print("exact probability")
+pbinom 
+#Bin distribution approximation with the 
+pnorm(20, (25*0.8), sqrt(25*0.8*0.2))
+#probability form the binomial distribution using normal distribution to find the probability
+xs <-pnorm(20.5,(25*0.8), sqrt(25*0.8*0.2))
+print("continuity correction")
+xs 
+
+
+
+
+
+#B
+
+# take the integral((x/theta^2)(e))^(x^2/2*theta^2) = 
+theta = 1
+e = 2.7
+fex<-function(x){(-e^(-x^2/2*theta^2))*ifelse((x>0 & x<10000), 1,0)}
+mew<-integrate(fex,0,10000)$value
+mew
+
+#V(X) = E(X-mew)^2
+Xvar <- function(x){(((x-mew)^2)^(-x^2/2*theta^2)) *ifelse((x> 0 & x< 10000), 1, 0)}
+nvar <- integrate(Xvar,0,10000)$value
+nvar
+
+
+```

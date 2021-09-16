@@ -1,0 +1,282 @@
+---
+title: "Final"
+author: "Ade Olu-Ajeigbe"
+date: "5/3/2021"
+output: pdf_document
+---
+
+1. Redefine the “quality” variable as a factor with 2 levels-‘high’ (Quality score 6 and
+above) and ‘low’ (Quality score 5 or less) Hint: One way to do this is using the ifelse
+function in R. [Make sure you keep this binary variable only for quality and not the
+continuous one]
+(a) (4 points) To study variables that affect the quality of wine, fit a logistic regression
+model with all covariates.
+(b) (5 points) Interpret the coefficients for significant covariates (How does the odds of
+high quality wine change with these covariates?).
+(c) (4 points) Reduce the model (reduce the number of covariates) to fit the best possible
+model using all 1500 observations.
+(d) (4 points) Is there statistical evidence from your reduced model that % of alcohol is
+associated with an increase in the probability of high quality wine? Explain.
+(e) (2 points) Explain why linear regression is inappropriate for modeling the prevalence
+of high quality wine. When could you use linear regression instead?
+
+```{r, echo = TRUE}
+
+
+data <- read.csv(file = "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequaliy-white.csv", header = TRUE, sep = ";")
+final<-data2[sample(nrow(data2), 1500), ]
+
+
+final$quality <- ifelse(final$quality > 6, "high", as.character(final$quality))
+
+final$quality <- ifelse(final$quality < 5, "low", as.character(final$quality))
+
+final$quality <- final$quality == "high" 
+
+head(final)
+
+
+
+#PartA)
+cols<-c(1:11) #columns numbers 1 through 11
+final[cols]<-sapply(final[cols], as.numeric)#changes first 11 columns to numeric
+
+
+model<-glm(quality ~ .,family = binomial(logit), data=final)
+summary(model)
+
+# residual sugar, volatile.acidity,density, pH, sulphates, and fixed.acidity are the significant values from least to greatest
+
+#Part B)
+#residual sugars were the most significant since they had the lowest p-values
+
+exp(model$coefficients)
+
+#Part C)
+model2<-glm(quality ~ residual.sugar + volatile.acidity + pH + density + sulphates + fixed.acidity, family = binomial(logit), data =final)
+summary(model2)
+
+#Part D)
+#The alcohol seems to not have an intense correlation between the two values present
+
+#Part E)
+#Linear regerrions would need values that are more closely related that can be interpreted fully.
+```
+
+(a) (10 points) Perform k-fold cross validation with your model from 1(c) with k=10.
+Report the accuracy of your model.
+(b) (10 points) Report the accuracy of your model through leave one out cross validation.
+For this dataset, which method (k-fold or leave one out) would you recommend?
+
+
+```{r, echo = TRUE}
+x <- final[sample(1:nrow(final)),]
+library(caret)
+library(e1071)
+
+#set.seed(134)
+Train <- createDataPartition(final$quality, p=0.75, list=FALSE)
+training <- x[ Train, ]
+testing <- x[ -Train, ]
+
+
+train.control <- trainControl(method = "repeatedcv", number = 10, savePredictions = TRUE, repeats = 5)
+
+
+training$quality<-factor(training$quality)
+
+
+
+kfoldtestss<- train(quality ~ residual.sugar + volatile.acidity + pH + density + sulphates + fixed.acidity, data = training, trControl = train.control, method = "glm", family = "binomial")
+print(kfoldtestss)
+
+#Part B
+
+acc <- NULL
+for(i in 1:nrow(final))
+{
+train <- final[-i,]
+test <- final[i,]
+# Fitting
+loo_m <- glm(quality ~ residual.sugar + volatile.acidity + pH + density + sulphates + fixed.acidity, family =binomial(logit), data = train)
+# Predict results
+pred <- predict(loo_m,newdata=test,type="response")
+# If prob > 0.5 then 1, else 0
+results <- ifelse(pred > 0.5,1,0)
+# Actual answers
+answers <- test$quality
+# Calculate accuracy
+misClasificError <- mean(answers != results)
+# Collecting results
+acc[i] <- 1-misClasificError
+}
+mean(acc)
+
+
+
+```
+
+
+3. Swarnali can have 0, 1 or 2 ice-creams in a day depending on whether it is a Hot or Cold
+day. Consider the following Hidden Markov Model: 
+P(0|H) = 0.2
+P(1|H) = 0.5
+P(2|H) = 0.3
+P(0|C) = 0.6
+P(1|C) = 0.3
+P(2|C) = 0.1
+
+hot to cold = 0.3
+cold to hot = 0.4
+hot to hot = 0.7
+cold to cold = 0.6
+
+(a) (10 points) On three consecutive days, number of ice-creams consumed were 1 0 2. If
+all three days had similar weather, which of HHH and CCC is more likely?
+(b) (10 points) Use Viterbi algorithm to find the maximum probability path and the
+maximum probability of this sequence.
+
+```{r, echo = TRUE}
+#Part A
+HHH <- (0.5 *0.5)*(0.7* 0.2)*(0.7 * 0.3)
+HHH
+CCC <- (0.5 *0.3)*(0.6* 0.6)*(0.6 *0.1)
+CCC
+##hot is more likely
+
+#Part B
+markov <- function(x,P,n){ seq <- x
+for(k in 1:(n-1)){
+seq[k+1] <- sample(x, 1, replace=TRUE, P[seq[k],])}
+return(seq)
+}
+hmmdat <- function(A,E,n){
+observationset <- c(1:3) #3 diferent days
+hiddenset <- c(1,2) #hot denoted by 1, cold denoted by 2
+x <- h <- matrix(NA,nr=n,nc=1)
+h[1]<-1
+x[1]<-sample(observationset,1,replace=TRUE,E[h[1],])
+h <- markov(hiddenset,A,n)
+for(k in 1:(n-1)){x[k+1] <- sample(observationset,1,replace=TRUE,E[h[k],])}
+out <- matrix(c(x,h),nrow=n,ncol=2,byrow=FALSE)
+return(out)
+}
+
+E <- matrix(c(0.2,0.5,0.3,0.6,0.3,0.1),2,3,byrow=TRUE) #emission matrix
+E
+
+A <- matrix(c(0.7,0.3,0.6,0.4),2,2,byrow=TRUE) #transition matrix
+A
+
+dat <- hmmdat(A,E,100)
+colnames(dat) <- c("observation","hidden_state")
+rownames(dat) <- 1:100
+t(dat)
+
+viterbi <- function(A,E,x) {
+v <- matrix(NA, nr=length(x), nc=dim(A)[1])
+v[1,] <- 0; v[1,1] <- 1
+for(i in 2:length(x)) {
+for (l in 1:dim(A)[1]) {v[i,l] <- E[l,x[i]] * max(v[(i-1),] * A[l,])}
+}
+return(v)
+}
+vit <- viterbi(A,E,dat[,1]) #using algorithm
+vitrowmax <- apply(vit, 1, function(x) which.max(x)) #tracing back max prob p
+datt <- cbind(dat,vitrowmax)
+colnames(datt) <- c("observation","hidden_state","predicted state")
+t(datt)
+
+hiddenstate <- dat[,2]
+tab<-table(hiddenstate, vitrowmax)
+accuracy<-sum(diag(tab))/sum(tab)
+misClasificerror<-1-accuracy
+misClasificerror
+
+
+
+
+```
+4.This question has two related parts.
+(a) (10 points) Consider the 4 nucleotides of a DNA sequence ‘a’, ‘c’, ‘g’, ‘t’. For these 4
+states, keeping in mind properties of a transition matrix, define any 4 by 4 transition
+matrix of your choice. Now, using this transition matrix of your choice, P, and an
+initial probability vector 𝜋 = (0.4,0.1,0.1,0.4), generate a Markov chain of length
+1000.
+(b) (10 points) For the chain generated in (a), use a chi-square goodness of fit test to
+check if purines (‘a’, ‘g’) and pyrimidines (‘c’, ‘t’) have equal probability. 
+```{r, echo=TRUE}
+
+library(ade4)
+library(seqinr)
+x<-read.fasta("C:/Users/willi/OneDrive/Documents/E.Coli/AE005174v2.fas")
+ecoli<-c(x[[1]],x[[2]])
+P<-prop.table(table(ecoli[4000:4999],ecoli[4001:5000]),1)
+P #Transition matrix
+
+pi<-c(0.4,0.1,0.1,0.4)
+nucleotides <- c("a","c","t","g")
+length<-1000
+chain<-rep(NA,length)
+chain[1]<-sample(nucleotides,1,p=pi)
+chain[1]
+for (i in 1:999){
+ chain[i+1]<-sample(nucleotides,1,p=P[chain[i],])
+ }
+head(chain)
+
+#b)
+x<-table(chain[1:1000])[c("a","c","t","g")]
+x<-c(2*(x[4]+x[2]), 2*(x[1]+x[3]))#freq of G, #freq of others
+p<-c(0.5,0.5)
+chisq.test(x,p=p)
+
+
+
+
+```
+
+
+
+6. (a) (5 points) For your data set ‘final’, perform principal component analysis on the 11
+predictor variables only. (leave out quality of wine for this part)
+(b) (2+2+2 points) To retain at least 90% variation in the data, how many principal
+components (PCs) should be retained? How much variation are you retaining exactly
+here? Justify why you see so many or so few PCs to retain 90% variation.
+(c) (3 points) Express the first PC as a linear combination of the 11 original variables.
+Comment on these coefficients.
+(d) (2 points) Should there be any correlation between PC1 and PC2? Justify.
+(e) (4 points) Plot PC1 vs PC2 and overlap quality of wine (‘high’ and ‘low’) with
+different colors. Comment.
+
+
+```{r, echo = TRUE}
+
+colnames(quality)<-NULL
+pca<- prcomp(final, center = TRUE,scale. = TRUE)
+#standardization is required for PCA
+#So let us use the correlation matrix instead of the variance-covariance matrix
+R<-cor(t(final))
+dim(R)
+E<-eigen(R) 
+
+values<-E$values
+sum(values[1:52])/sum(values)
+pca <- prcomp(data, center = TRUE,scale. = TRUE)
+
+print(pca) #s
+summary(pca) 
+plot(pca,type="l")
+#BIPLOT
+library(ggfortify)
+autoplot(pca, data = iris, loadings = TRUE, loadings.label=TRUE)
+#is there clustering with respect to Species?
+autoplot(pca, data = final, loadings = TRUE, loadings.label=TRUE, colour='quality')
+
+biplot(pca)
+
+
+
+```
+
+

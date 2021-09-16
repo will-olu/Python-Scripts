@@ -1,0 +1,252 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Homework \#2},
+  pdfauthor={Ade Olu-Ajeigbe},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Homework \#2}
+\author{Ade Olu-Ajeigbe}
+\date{3/3/2021}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Use bayes Rule}
+\CommentTok{#P(H) = 0.25 #total population with hypertension}
+\CommentTok{#P(A | H ) = 0.90 #}
+\CommentTok{#P(A | nC ) = 0.05 #}
+\CommentTok{#P(A | C) = 0.095}
+
+\CommentTok{#BayesRule -> P(H) *P(A| H)/ P(H) * P(A| H) + P(notH) * P(nH)*P(A | nC)}
+
+\NormalTok{BayesRule <-}\StringTok{ }\NormalTok{(}\FloatTok{0.25}\OperatorTok{*}\StringTok{ }\FloatTok{0.90}\NormalTok{)}\OperatorTok{/}\StringTok{ }\NormalTok{((}\FloatTok{0.25}\OperatorTok{*}\FloatTok{0.90}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{(}\FloatTok{0.75}\OperatorTok{*}\FloatTok{0.05}\NormalTok{))}
+\NormalTok{BayesRule}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8571429
+\end{verbatim}
+
+\hypertarget{including-plots}{%
+\subsection{Including Plots}\label{including-plots}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Using the first 1000 base pairs of the E,coli data, estimate the
+  transition matrix, 𝑃, for a Markov chain. Calculate 𝑃 2, 𝑃4, 𝑃8, 𝑃16.
+  (Remember to use \%*\% to do matrix multiplication in R!) Do the
+  entries seem to be approaching any specific quantity?
+\item
+  Assuming 𝜋 = (0.1; 0.15; 0.05; 0.7) and using P from part (a),
+  simulate 𝑛 = 3000 observations from this Markov chain. (components of
+  𝜋 correspond to A, C, G, T in this order)
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#install.packages("seqinr")}
+\CommentTok{#install.packages("ade4")}
+\CommentTok{#library(ade4)}
+\CommentTok{#library(seqinr)}
+
+\CommentTok{#Read in the data in Fasta format}
+
+
+\CommentTok{#gene <- ("C:/Users/willi/OneDrive/Documents/E.Coli/AE005174v2.fas",package = "seqinr") }
+\CommentTok{#x<-c read.fasta (file = gene, as.string = TRUE, seqtype = "AA") [[1]]}
+
+\CommentTok{#str(x)}
+\CommentTok{#This is the DNA sequence of ecoli!}
+\CommentTok{#ecoli<-c(x[[1]],x[[2]]) #Now you have loaded the DNA seq of Ecoli}
+
+
+
+\CommentTok{#some more statistics}
+\CommentTok{#str(ecoli)}
+
+\CommentTok{#proportion of C+G in this sequence}
+\CommentTok{#sum(table(ecoli)[c("c","g")])/}
+ \CommentTok{# sum(table(ecoli)[c("c","g","a","t")])}
+
+\CommentTok{#ecoli table}
+\CommentTok{#tab<-table(ecoli)[c("a","c","t","g")]}
+\CommentTok{#tab}
+\CommentTok{#}
+\CommentTok{#ecoli percentages}
+\CommentTok{#p<-tab[c("a","c","t","g")]/sum(tab[c("a","c","t","g")])}
+\CommentTok{#p}
+
+\CommentTok{#P <- matrix(c(.2, .4, .8, .16))}
+\CommentTok{#lengthFirst <- numStrains <- rep(0,nsim)}
+\CommentTok{#tic()}
+\CommentTok{#for (q in 1:nsim)}
+\CommentTok{#\{}
+  \CommentTok{#Create the chain object}
+ \CommentTok{# chain <- rep(NA, lengthOfChain)}
+  
+  \CommentTok{#Initialize chain}
+  \CommentTok{#chain[1]<-sample(states,1,p=pi)}
+  
+  \CommentTok{#for (i in 1:(lengthOfChain-1))\{}
+    \CommentTok{#chain[i+1]<-sample(states,1,p=P[chain[i],])}
+  \CommentTok{#\}}
+  
+  \CommentTok{#calculate number of strains}
+  \CommentTok{#numStrains[q] <- length(unique(chain))}
+  
+  \CommentTok{#Calculate length before switching. First swith}
+ \CommentTok{# lengthFirst[q] <- min(which(diff(chain)!=0))}
+\CommentTok{#\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Find the distribution of two-words in the chain that you simulated in
+  2(b). (Get 4 by 4 table with two word frequencies or joint
+  probabilities).
+\item
+  Define a random variable X as the frequency of the nucleotide `C' in a
+  chain. Simulate the Markov chain in 2(b) 10000 times and generate a
+  histogram of 𝑋. Comment on the distribution of this random variable 𝑋.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#creating table 4 x 4}
+\CommentTok{#table }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#X~Bin(n=25, p=0.1)}
+
+\CommentTok{#P(X > 15)}
+
+\NormalTok{BinDistribution <-}\StringTok{ }\KeywordTok{dbinom}\NormalTok{(}\DecValTok{15}\NormalTok{,}\DecValTok{25}\NormalTok{,}\FloatTok{0.1}\NormalTok{)}
+\NormalTok{BinDistribution }\CommentTok{#1.139746e-09}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.139746e-09
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Poisson approximation}
+\CommentTok{# lamda = n*p = 25 * 0.1}
+\NormalTok{lopois <-}\StringTok{ }\KeywordTok{dpois}\NormalTok{(}\DecValTok{15}\NormalTok{, }\FloatTok{2.5}\NormalTok{)}
+\NormalTok{lopois }\CommentTok{#5.846074e-08}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.846074e-08
+\end{verbatim}
+
+\end{document}
